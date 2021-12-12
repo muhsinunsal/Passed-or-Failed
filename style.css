@@ -9,7 +9,7 @@ body {
   background: radial-gradient(circle, rgba(36, 36, 73, 1) 0%, rgba(49, 86, 130, 1) 100%);
   font-family: "Roboto", sans-serif;
 }
-.fondation {
+#fondation {
   max-width: 80vw;
   min-height: 80vh;
   margin: 0 auto;
@@ -30,7 +30,24 @@ body {
 }
 #s1 input {
   text-align: center;
+  height: 25px;
+  width: 300px;
 }
 #s1 > * {
   margin: 10px;
+}
+#s3 {
+
+    width: auto;
+}
+#totalgrade {
+    text-align: center;
+    margin: 20px;
+    text-decoration: underline;
+}
+#Hmm{
+    position: absolute;
+    font-size: 48px;
+    right: 20px;
+    bottom: 20px;
 }
