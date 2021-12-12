@@ -1,17 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Passed/Failed</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="fondation">
-        <div class="title">
-            <h1>Passed or Failed?</h1>
-        </div>
+      <div class="title">
+        <h1>Passed or Failed?</h1>
+      </div>
+      <div id="s1">
+        <h4>Please start with choosing course you're taking</h4>
+        <input type="text" class="inital" list="courses">
+        <datalist id="courses">
+            <option value="CHE 105">General Chemistry</option>
+            <option value="MATH 151">Calculus I</option>
+            <option value="CMPE 109">Fundemantals of Computing</option>
+            <option value="CMPE 113">Computer Programming I</option>
+            <option value="ENG 101">English for Academic Purposes I</option>
+            <option value="PHYS 101">General Physics I</option>
+        </datalist>
+        </input>
+      </div>
+      <div id="s2">
+          <table>
+              <tr>
+              <td id="mid1">Midterm I</td>
+              <td id="mid2">Midterm II</td>
+              <td id="fin">Final</td>
+              <td id="asign">Asignment</td>
+              <td id="quiz">Quiz</td>
+              </tr>
+              <tr>
+              <td><input type="number" name="MidtermI" id="mid1_i"></td>
+              <td><input type="number" name="MidtermII" id="mid2_i"></td>
+              <td><input type="number" name="Final" id="fin_i"></td>
+              <td><input type="number" name="Asignment" id="asing_i"></td>
+              <td><input type="number" name="Quiz" id="quiz_i" placeholder="Your total point"></td>
+              </tr>
+          </table>
+          <table id="grading">
+              <tbody>
+                  <tr>
+                      <td>Midterm I</td>
+                      <td>Midterm II</td>
+                      <td>Final</td>
+                      <td>Asignment</td>
+                  </tr>
+                  <tr>
+                      <td>20%</td>
+                      <td>20%</td>
+                      <td>40%</td>
+                      <td>10%</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <div id="s3">
+          **Results**
+      </div>
+    
+
     </div>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
