@@ -45,8 +45,51 @@ const PHYS101 = {
     Assignment: 15,
   },
 };
+const ENG101 = {
+  proporites: {
+    Name: "ENG 101",
+    Namefull: "English for Academic Purposes I",
+    Midterm: 1,
+    Kalmasiniri: null
+  },
+  grading_ratios: {
+    Midterm: 30,
+    IT: 20,
+    Presentation: 10,
+    Final: 40
+  }
+};
+const CMPE109 = {
+  proporites: {
+    Name: "CMPE 109",
+    Namefull: "Fundamentals of Computing",
+    Midterm: 1,
+    Kalmasiniri: null
+  },
+  grading_ratios: {
+    Midterm: 30,
+    Assignment: 20,
+    Final: 50
+  }
+};
+const CMPE113 = {
+  proporites: {
+    Name: "CMPE 113",
+    Namefull: "Computer Programming I",
+    Midterm: 2,
+    Kalmasiniri: null
+  },
+  grading_ratios: {
+    Midterm_1: 40,
+    Midterm_2: 40,
+    Laboratory: 20,
+    Assignment: 10,
+    Final: 30
+  }
+};
 
-const courses = [MATH151, CHE105, PHYS101];
+const courses = [MATH151, CHE105, PHYS101, ENG101,CMPE109,CMPE113];
+courses.sort();
 
 function whatCourse(string) {
   let course;
@@ -59,6 +102,15 @@ function whatCourse(string) {
       break;
     case "PHYS 101":
       course = PHYS101;
+      break;
+    case "ENG 101":
+      course = ENG101;
+      break;
+    case "CMPE 109":
+      course = CMPE109;
+      break;
+    case "CMPE 113":
+      course = CMPE113;
       break;
     default:
       console.error("Whatcourse functionuna yanlış string girildi!");
@@ -116,10 +168,3 @@ course_i.addEventListener("change", () => {
 
 
 document.getElementById("s2").appendChild(table);
-
-
-let Hmm = document.createElement("div");
-let quote = ["Made with boredom.","Why ?","🙂","🤣","😐","Made with love"];
-Hmm.setAttribute("id","Hmm");
-Hmm.innerHTML = quote[Math.floor(Math.random() * quote.length)];
-document.getElementById("fondation").appendChild(Hmm);
