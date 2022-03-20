@@ -13,6 +13,21 @@ const MATH151 = {
     Quiz: 10,
   },
 };
+const MATH152 = {
+  proporites: {
+    Name: "MATH 152",
+    Namefull: "Calculus II",
+    Quiz: 7,
+    Midterm: 2,
+    Kalmasiniri: "Unknown",
+  },
+  grading_ratios: {
+    Midterm_1: 30,
+    Midterm_2: 30,
+    Final: 40,
+    Quiz: 10,
+  },
+};
 const CHE105 = {
   proporites: {
     Name: "CHE 105",
@@ -45,50 +60,120 @@ const PHYS101 = {
     Assignment: 15,
   },
 };
+const PHYS102 = {
+  proporites: {
+    Name: "PHYS 102",
+    Namefull: "General Physics II",
+    Laboratory: 5,
+    Midterm: 2,
+    Kalmasiniri: "Unknown",
+  },
+  grading_ratios: {
+    Midterm_1: 20,
+    Midterm_2: 20,
+    Final: 25,
+    Laboratory: 20,
+    Assignment: 15,
+  },
+};
 const ENG101 = {
   proporites: {
     Name: "ENG 101",
     Namefull: "English for Academic Purposes I",
     Midterm: 1,
-    Kalmasiniri: null
+    Kalmasiniri: null,
   },
   grading_ratios: {
     Midterm: 30,
     IT: 20,
     Presentation: 10,
-    Final: 40
-  }
+    Final: 40,
+  },
+};
+const ENG102 = {
+  proporites: {
+    Name: "ENG 102",
+    Namefull: "English for Academic Purposes II",
+    Midterm: 1,
+    Kalmasiniri: null,
+  },
+  grading_ratios: {
+    Midterm: 30,
+    IT: 20,
+    Presentation: 10,
+    Final: 40,
+  },
 };
 const CMPE109 = {
   proporites: {
     Name: "CMPE 109",
     Namefull: "Fundamentals of Computing",
     Midterm: 1,
-    Kalmasiniri: null
+    Kalmasiniri: null,
   },
   grading_ratios: {
     Midterm: 30,
     Assignment: 20,
-    Final: 50
-  }
+    Final: 50,
+  },
+};
+const CMPE134 = {
+  proporites: {
+    Name: "CMPE 134",
+    Namefull: "Fundamentals of Electronic Circuit Components",
+    Midterm: 2,
+    Kalmasiniri: null,
+  },
+  grading_ratios: {
+    Midterm_1: 20,
+    Midterm_2: 20,
+    Laboratory: 20,
+    Final: 40,
+  },
 };
 const CMPE113 = {
   proporites: {
     Name: "CMPE 113",
     Namefull: "Computer Programming I",
     Midterm: 2,
-    Kalmasiniri: null
+    Kalmasiniri: null,
   },
   grading_ratios: {
-    Midterm_1: 40,
-    Midterm_2: 40,
+    Midterm_1: 20,
+    Midterm_2: 20,
     Laboratory: 20,
     Assignment: 10,
-    Final: 30
-  }
+    Final: 30,
+  },
 };
-
-const courses = [MATH151, CHE105, PHYS101, ENG101,CMPE109,CMPE113];
+const CMPE114 = {
+  proporites: {
+    Name: "CMPE 114",
+    Namefull: "Computer Programming II",
+    Midterm: 2,
+    Kalmasiniri: null,
+  },
+  grading_ratios: {
+    Midterm_1: 20,
+    Midterm_2: 20,
+    Laboratory: 20,
+    Assignment: 10,
+    Final: 30,
+  },
+};
+const courses = [
+  MATH151,
+  MATH152,
+  CHE105,
+  PHYS101,
+  PHYS102,
+  ENG101,
+  ENG102,
+  CMPE109,
+  CMPE134,
+  CMPE113,
+  CMPE114,
+];
 courses.sort();
 
 function whatCourse(string) {
@@ -137,11 +222,10 @@ table.appendChild(row2);
 let result = 0;
 
 course_i.addEventListener("change", () => {
-    result = 0;
-    document.getElementById("totalgrade").innerHTML = `Your grade is: ${result}`;
-    row1.innerHTML = "";
-    row2.innerHTML = "";
-     
+  result = 0;
+  document.getElementById("totalgrade").innerHTML = `Your grade is: ${result}`;
+  row1.innerHTML = "";
+  row2.innerHTML = "";
 
   const courseobj = whatCourse(course_i.value);
   for (let i = 0; i < Object.keys(courseobj.grading_ratios).length; i++) {
@@ -159,12 +243,13 @@ course_i.addEventListener("change", () => {
     input.setAttribute("id", `${property}_i`);
     input.addEventListener("change", () => {
       result += (input.value * courseobj.grading_ratios[property]) / 100;
-      document.getElementById("totalgrade").innerHTML = `Your grade is: ${result}`
+      document.getElementById(
+        "totalgrade"
+      ).innerHTML = `Your grade is: ${result}`;
     });
     td2.appendChild(input);
     row2.appendChild(td2);
   }
 });
-
 
 document.getElementById("s2").appendChild(table);
