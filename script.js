@@ -188,14 +188,26 @@ function whatCourse(string) {
     case "PHYS 101":
       course = PHYS101;
       break;
+    case "PHYS 102":
+      course = PHYS102;
+      break;
     case "ENG 101":
       course = ENG101;
+      break;
+    case "ENG 102":
+      course = ENG102;
       break;
     case "CMPE 109":
       course = CMPE109;
       break;
+    case "CMPE 134":
+      course = CMPE134;
+      break;
     case "CMPE 113":
       course = CMPE113;
+      break;
+    case "CMPE 114":
+      course = CMPE114;
       break;
     default:
       console.error("Whatcourse functionuna yanlış string girildi!");
