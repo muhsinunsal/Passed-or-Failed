@@ -1,0 +1,23 @@
+{
+  "name": "passed-or-failed",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhsinunsal/Passed-or-Failed.git"
+  },
+  "author": "Muhsin Ünsal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muhsinunsal/Passed-or-Failed/issues"
+  },
+  "homepage": "https://github.com/muhsinunsal/Passed-or-Failed#readme",
+  "dependencies": {
+    "puppeteer": "^19.7.5"
+  }
+}
