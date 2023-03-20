@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="foundation">
+
+
+    <div id="s1">
+      <h1>Passed or Failed?</h1>
+      <h4>Please start with choosing course you're taking</h4>
+      <input type="text" id="course" list="courses">
+      <datalist id="courses">
+      </datalist>
+      <h6>Grading ratios last updated at <i id="lastUpdate"></i>
+        <br>
+        If data got outdated please contact the owner
+      </h6>
+      </input>
+    </div>
+
+    <div id="s2">
+      <ol class="grading_Stack" id="grading_Stack_Midterms">
+        <u>Midterms (40%)</u>
+        <label class="supreme">
+          <input class="grading_Input" type="number" id="midterms_0">
+        </label>
+        <label>
+          <input class="grading_Input" type="number" id="midterms_1">
+        </label>
+        <label>
+          <input class="grading_Input" type="number" id="midterms_2">
+        </label>
+      </ol>
+      <ol class="grading_Stack" id="grading_Stack_Quizzes">
+        <u>Quizzes (30%)</u>
+        <label class="supreme">
+          <input class="grading_Input" type="number" id="quizzes_0">
+        </label>
+        <label>
+          <input class="grading_Input" type="number" id="quizzes_1">
+        </label>
+        <label>
+          <input class="grading_Input" type="number" id="quizzes_2">
+        </label>
+        <label>
+          <input class="grading_Input" type="number" id="quizzes_3">
+        </label>
+        <label>
+          <input class="grading_Input" type="number" id="quizzes_4">
+        </label>
+        <label>
+          <input class="grading_Input" type="number" id="quizzes_5">
+        </label>
+      </ol>
+      <ol class="grading_Stack" id="grading_Stack_Final">
+        <u>Final (30%)</u>
+        <label class="supreme">
+          <input class="grading_Input" type="number" id="final_0">
+        </label>
+        <label class="single">
+          <input class="grading_Input" type="number" id="final_1">
+        </label>
+      </ol>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>

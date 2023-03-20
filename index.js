@@ -47,13 +47,13 @@ const run = async () => {
 
     //Filter 
     const finalCourseList = [];
-    for (const course in courses) {
-        let duplicate = finalCourseList.some(c => courses[course].shortName === c.shortName);
-        let electiveCourse = courses[course].fullName.includes("Elective");
-        let hasShortName = courses[course].shortName != "";
+    for (const course of courses) {
+        let duplicate = finalCourseList.some(c => course.shortName === c.shortName);
+        let electiveCourse = course.fullName.includes("Elective");
+        let hasShortName = course.shortName != "";
 
         if (!duplicate && !electiveCourse && hasShortName) {
-            finalCourseList.push(courses[course]);
+            finalCourseList.push(course);
         }
     }
 
@@ -65,7 +65,7 @@ const run = async () => {
 
     //Mark the Date
     const lastUpadted = new Date();
-    fs.appendFileSync("data.json", JSON.stringify(lastUpadted.toDateString() ) + ",");
+    fs.appendFileSync("data.json", JSON.stringify(lastUpadted.toDateString()) + ",");
 
     //Visit each Course Page And Print Gradings
     for (const course in finalCourseList) {
@@ -74,7 +74,25 @@ const run = async () => {
         let gradings = await coursePage.evaluate(() =>
             Array.from(document.querySelectorAll(".detail-container.ects div:nth-child(5) > table > tbody > tr"), (grading) => {
                 const row = grading.querySelectorAll("td");
-                const type = row[0].innerText;
+                let type;
+                switch (row[0].innerText) {
+                    case "Midterms Exams/Midterms Jury":
+                        type = "Midterms";
+                        break;
+                    case "Final Exam/Final Jury":
+                        type = "Final";
+                        break;
+                    case "Quizzes/Studio Critics":
+                        type = "Quizzes";
+                        break;
+                    case "Homework Assignments":
+                        type = "Homeworks";
+                        break;
+                    case "Attendance/Participation":
+                        type = "Attendance";
+                        break;
+
+                };
                 const number = (row[1].innerText == "-") ? null : Number(row[1].innerText);
                 const percentage = (row[2].innerText == "-") ? null : Number(row[2].innerText);
                 if (number != null || percentage != null) {
