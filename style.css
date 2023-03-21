@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Rufina&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Rufina:wght@400;700&display=swap");
 * {
   margin: 0 auto;
   padding: 0;
@@ -14,21 +14,21 @@ body {
   background: #abda8e;
   /*background: radial-gradient(circle, rgba(36, 36, 73, 1) 0%, rgba(49, 86, 130, 1) 100%);*/
   font-family: "Rufina", serif;
-  padding: 1%;
 }
 
 .foundation {
   max-width: 80vw;
-  margin: 0 auto;
+  margin: 1% auto;
   background-color: #edf2f4;
   -webkit-box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.5);
           box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   position: relative;
-  padding: 10vh 10px;
+  padding-bottom: 10vh;
 }
 
 .foundation > * {
+  margin: 15px;
   margin-bottom: 10vh;
 }
 
@@ -36,9 +36,54 @@ body {
   margin-bottom: 0;
 }
 
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #abda8e;
+  border-radius: 0 0 100px 100px;
+  padding: 15px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 5px;
+}
+
+header i,
+header a {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+header a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+header > * {
+  margin: 0;
+}
+
 h1 {
   text-align: center;
-  margin: 10px 0 40px 0;
+  font-size: 3em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+h1 > span {
+  margin: 0;
 }
 
 #s1 {
@@ -52,7 +97,6 @@ h1 {
 #s1 input {
   text-align: center;
   height: 25px;
-  width: 300px;
 }
 
 #s2 {
@@ -72,6 +116,7 @@ h1 {
   gap: 2.5rem;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  min-height: 200px;
 }
 
 .grading_Stack {
@@ -135,7 +180,9 @@ h1 {
 }
 
 #s3 {
-  width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 #totalgrade {
@@ -148,5 +195,11 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+@media (min-width: 700px) {
+  #s1 > input {
+    width: 30%;
+  }
 }
 /*# sourceMappingURL=style.css.map */

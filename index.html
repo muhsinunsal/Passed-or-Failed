@@ -5,29 +5,25 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Passed or Failed</title>
   <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="foundation">
-
-
+    <header><span>Grading ratios last updated at</span><i id="lastUpdate">Jan 01 1970</i></header>
     <div id="s1">
-      <h1>Passed or Failed?</h1>
-      <h4>Please start with choosing course you're taking</h4>
+      <h1><span>Passed</span><span>or</span><span>Failed ?</span></h1>
       <input type="text" id="course" list="courses">
       <datalist id="courses">
       </datalist>
-      <h6>Grading ratios last updated at <i id="lastUpdate"></i>
-        <br>
-        If data got outdated please contact the owner
-      </h6>
       </input>
     </div>
-
     <div id="s2">
+      <h2>Please start with choosing course you're taking</h2>
+      <!-- EXAMPLE -->
+      <!--
       <ol class="grading_Stack" id="grading_Stack_Midterms">
         <u>Midterms (40%)</u>
         <label class="supreme">
@@ -70,6 +66,11 @@
           <input class="grading_Input" type="number" id="final_1">
         </label>
       </ol>
+      -->
+    </div>
+    <hr>
+    <div id="s3">
+      <h2>Total point is: 0</h2>
     </div>
   </div>
   <script src="script.js"></script>

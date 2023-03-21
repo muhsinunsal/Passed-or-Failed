@@ -75,24 +75,7 @@ const run = async () => {
             Array.from(document.querySelectorAll(".detail-container.ects div:nth-child(5) > table > tbody > tr"), (grading) => {
                 const row = grading.querySelectorAll("td");
                 let type;
-                switch (row[0].innerText) {
-                    case "Midterms Exams/Midterms Jury":
-                        type = "Midterms";
-                        break;
-                    case "Final Exam/Final Jury":
-                        type = "Final";
-                        break;
-                    case "Quizzes/Studio Critics":
-                        type = "Quizzes";
-                        break;
-                    case "Homework Assignments":
-                        type = "Homeworks";
-                        break;
-                    case "Attendance/Participation":
-                        type = "Attendance";
-                        break;
-
-                };
+                
                 const number = (row[1].innerText == "-") ? null : Number(row[1].innerText);
                 const percentage = (row[2].innerText == "-") ? null : Number(row[2].innerText);
                 if (number != null || percentage != null) {
