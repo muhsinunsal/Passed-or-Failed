@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&family=Rufina:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kay+Pho+Du:wght@400;700&display=swap");
 * {
   margin: 0 auto;
   padding: 0;
@@ -6,62 +7,54 @@
 
 html,
 body {
-  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  /*background: rgb(36, 36, 73);*/
   background: #abda8e;
-  /*background: radial-gradient(circle, rgba(36, 36, 73, 1) 0%, rgba(49, 86, 130, 1) 100%);*/
   font-family: "Rufina", serif;
 }
 
 .foundation {
   max-width: 80vw;
-  margin: 1% auto;
+  min-height: 80vh;
+  margin: 10px auto;
   background-color: #edf2f4;
-  -webkit-box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.5);
-          box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   position: relative;
   padding-bottom: 10vh;
 }
-
-.foundation > * {
+.foundation > :not(:first-child) {
   margin: 15px;
   margin-bottom: 10vh;
 }
-
 .foundation > :last-child {
   margin-bottom: 0;
 }
 
 header {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   background-color: #abda8e;
   border-radius: 0 0 100px 100px;
   padding: 15px;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 5px;
+  margin: 0 15px 10vh 15px;
+  position: sticky;
+  top: 0;
 }
-
 header i,
 header a {
   text-decoration: underline;
   font-weight: bold;
 }
-
 header a {
   text-decoration: underline;
   color: inherit;
 }
-
 header > * {
   margin: 0;
 }
@@ -69,86 +62,61 @@ header > * {
 h1 {
   text-align: center;
   font-size: 3em;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   gap: 10px;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -ms-flex-line-pack: center;
-      align-content: center;
+  flex-wrap: wrap;
+  align-content: center;
 }
-
 h1 > span {
   margin: 0;
 }
 
 #s1 {
+  margin-top: 10vh;
   text-align: center;
 }
-
-#s1 > * {
+#s1 * {
   margin: 10px;
 }
-
 #s1 input {
   text-align: center;
   height: 25px;
 }
 
 #s2 {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
   gap: 2.5rem;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   min-height: 200px;
 }
 
 .grading_Stack {
-  font-family: "Roboto", sans-serif;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-line-pack: start;
-      align-content: flex-start;
-  width: -webkit-fit-content;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: flex-start;
   width: -moz-fit-content;
   width: fit-content;
 }
-
 .grading_Stack > label {
   display: list-item;
 }
-
+.grading_Stack span {
+  font-family: "Kay Pho Du", serif;
+  font-weight: bold;
+  font-size: 1.25rem;
+  border-bottom: 1px solid #000;
+  padding: 0.1rem 0.25rem;
+}
 .grading_Stack > u {
-  font-family: "Rufina", serif;
+  font-family: "Kay Pho Du", serif;
+  font-weight: bold;
   font-size: large;
 }
 
@@ -170,7 +138,6 @@ h1 > span {
   display: block !important;
   list-style: none;
 }
-
 .supreme > * {
   display: none;
 }
@@ -180,9 +147,10 @@ h1 > span {
 }
 
 #s3 {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
+}
+#s3 h2 {
+  font-family: "Kay Pho Du", serif;
 }
 
 #totalgrade {
@@ -191,8 +159,8 @@ h1 > span {
   text-decoration: underline;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -201,5 +169,4 @@ input[type="number"]::-webkit-inner-spin-button {
   #s1 > input {
     width: 30%;
   }
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

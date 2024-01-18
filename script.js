@@ -51,7 +51,7 @@ fetch('./data.json')
             const grading_stack = document.createElement("ol");
             grading_stack.setAttribute("class", "grading_Stack");
             grading_stack.setAttribute("id", `grading_Stack_${grading.type}`);
-            const typeElement = document.createElement("u");
+            const typeElement = document.createElement("span");
             typeElement.innerText = `${grading.type} (${grading.percentage}%)`;
             grading_stack.appendChild(typeElement);
             grading.type = grading.type.toLowerCase();
