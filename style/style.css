@@ -1,0 +1,300 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Rufina:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kay+Pho+Du:wght@400;700&display=swap");
+._1 {
+  background-color: #f4e9cd;
+}
+
+._2 {
+  background-color: #9dbebb;
+}
+
+._3 {
+  background-color: #77aca2;
+}
+
+._4 {
+  background-color: #468189;
+}
+
+._5 {
+  background-color: #031926;
+}
+
+.testBox {
+  height: 50px;
+  width: 50px;
+}
+
+* {
+  margin: 0 auto;
+  padding: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #9dbebb;
+  color: #1B1B1B;
+  font-family: "Rufina", serif;
+}
+
+.foundation {
+  max-width: 80vw;
+  min-height: 80vh;
+  margin: 10px auto;
+  background-color: #f4e9cd;
+  box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  position: relative;
+  padding-bottom: 10vh;
+}
+.foundation > :not(:first-child) {
+  margin: 15px;
+  margin-bottom: 10vh;
+}
+.foundation > :last-child {
+  margin-bottom: 0;
+}
+
+header {
+  display: flex;
+  background-color: #77aca2;
+  border-radius: 0 0 100px 100px;
+  padding: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin: 0 15px 10vh 15px;
+  position: sticky;
+  top: 0;
+}
+header i,
+header a {
+  text-decoration: underline;
+  font-weight: bold;
+}
+header a {
+  text-decoration: underline;
+  color: inherit;
+}
+header > * {
+  margin: 0;
+}
+
+#lastUpdate {
+  color: #031926;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3em;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-content: center;
+}
+h1 > span {
+  margin: 0;
+}
+
+#s1 {
+  margin-top: 10vh;
+  text-align: center;
+}
+#s1 * {
+  margin: 10px;
+}
+#s1 #course {
+  text-align: center;
+  height: 25px;
+  font-family: "Kay Pho Du", serif;
+  border-radius: 5px;
+  border: none;
+  outline: 1px solid #77aca2;
+  background-color: rgba(247, 247, 247, 0.5);
+}
+#s1 #course:focus {
+  outline-width: 3px;
+}
+
+#s2 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  min-height: 200px;
+}
+
+.gradingStack {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: flex-start;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-family: "Kay Pho Du", serif;
+  transition-duration: 2000ms;
+}
+.gradingStack .text {
+  font-weight: bold;
+  font-size: 1.25rem;
+  border-bottom: 1px solid #000;
+  padding: 0.1rem 0.25rem;
+  margin-bottom: 2.5px;
+}
+.gradingStack .percantageText {
+  color: #468189;
+}
+.gradingStack .subtext {
+  width: 100%;
+  text-align: center;
+  margin-top: 2.5px;
+  cursor: pointer;
+  transition-duration: 100ms;
+  color: #468189;
+}
+.gradingStack .subtext:hover {
+  color: #031926;
+  text-decoration: underline;
+}
+
+.gradingInput {
+  all: unset;
+  display: list-item;
+  width: 100px;
+  min-width: 12rem;
+  min-height: 2rem;
+  margin: 0.5rem;
+  outline-style: solid;
+  outline-width: 2px;
+  border-radius: 5px;
+  color: #1B1B1B;
+  background-color: rgba(247, 247, 247, 0.5);
+  font-size: 1.2rem;
+  line-height: 2rem;
+  text-align: center;
+}
+.gradingInput.percantage {
+  outline-color: #9dbebb;
+}
+.gradingInput.total {
+  outline-color: #77aca2;
+}
+.gradingInput.total_percantage {
+  outline-color: #468189;
+}
+.gradingInput:focus {
+  outline-width: 3px;
+}
+
+.single {
+  list-style: none;
+}
+
+#s3 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+#s3 h2 {
+  font-family: "Kay Pho Du", serif;
+}
+
+#totalgrade {
+  text-align: center;
+  margin: 20px;
+  -webkit-text-decoration: underlinez;
+          text-decoration: underlinez;
+}
+
+input[type=text] {
+  background-color: #f4e9cd;
+  border: 1px solid #031926;
+  color: #031926;
+}
+
+input[type=number]:disabled, li:has(input[type=number]:disabled) {
+  display: block;
+  display: none;
+  background: #ccc;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+li:only-of-type {
+  list-style: none;
+}
+
+.roundBtn {
+  height: 1.5rem;
+  width: 1.5rem;
+  background-color: #468189;
+  color: #F7F7F7;
+  border: none;
+  border-radius: 50%;
+  margin: 0;
+  font-family: "Kay Pho Du", serif;
+  text-decoration: none;
+}
+.roundBtn:active {
+  background-color: #9dbebb;
+  color: #468189;
+  outline: 1px solid #468189;
+}
+
+#addCourseBtn {
+  display: block;
+  margin-top: 1rem;
+  height: 2rem;
+  width: 2rem;
+  color: #F7F7F7;
+}
+#addCourseBtn:disabled {
+  background-color: #9dbebb;
+}
+
+a {
+  text-decoration: none;
+}
+
+#s4 h2 {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-content: center;
+  font-size: 2rem;
+}
+
+hr {
+  margin: 15px;
+}
+
+@media (max-width: 700px) {
+  .foundation {
+    max-width: 92vw;
+  }
+  #s1 > input {
+    width: 30%;
+  }
+}/*# sourceMappingURL=style.css.map */

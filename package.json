@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "scrape": "node scraper.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node newScraper.js",
+    "typescript": "tsc  newScript.ts --watch --inlineSourceMap"
   },
   "repository": {
     "type": "git",

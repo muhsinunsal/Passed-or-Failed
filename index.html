@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Passed or Failed</title>
 		<link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" />
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="style/style.css" />
 	</head>
 
 	<body>
@@ -14,19 +14,28 @@
 			<header>
 				<div class="container">
 					<div class="header">
-						<span>Grading ratios last updated at</span><i id="lastUpdate">Jan 01 1970</i>
+						<span>Grading ratios last updated at</span> <i id="lastUpdate">Jan 01 1970</i>
 					</div>
 				</div>
 			</header>
 			<div id="s1">
 				<div class="container">
 					<h1><span>Passed</span><span>or</span><span>Failed ?</span></h1>
-					<input type="text" id="course" list="courses" />
+					<input type="text" id="course" list="courses" placeholder="EXAMPLE101" />
 					<datalist id="courses"> </datalist>
+					<button class="roundBtn" id="searchResetBtn">✘</button>
+
+					<!-- <div style="background-color: white; display: flex;">
+						<div class="testBox _1"><h1>1</h1></div>
+						<div class="testBox _2"><h1>2</h1></div>
+						<div class="testBox _3"><h1>3</h1></div>
+						<div class="testBox _4"><h1>4</h1></div>
+						<div class="testBox _5"><h1>5</h1></div>
+					</div> -->
 				</div>
 			</div>
 			<div id="s2">
-				<h2>Please start with choosing course you're taking</h2>
+				<!-- <div class="s2Text"><h2>Please start with choosing course you're taking</h2></div> -->
 				<!-- EXAMPLE -->
 				<!--
       <ol class="grading_Stack" id="grading_Stack_Midterms">
@@ -75,9 +84,15 @@
 			</div>
 			<hr />
 			<div id="s3">
-				<h2>Total point is: 0</h2>
+				<h2>Total point is: <span id="courseTotalGrade">0</span> / 100</h2>
+				<a href="#s4"><button class="roundBtn" id="addCourseBtn" disabled>↴</button></a>
+			</div>
+			<div id="s4" class="hidden">
+				<hr />
+				<h2>Saved Courses</h2>
 			</div>
 		</div>
-		<script src="script.js"></script>
+		<!-- <script src="script.js"></script> -->
+		<script src="newScript.js"></script>
 	</body>
 </html>
