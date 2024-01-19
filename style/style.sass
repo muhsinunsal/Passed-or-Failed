@@ -46,7 +46,7 @@ body
   border-radius: 5px
   position: relative
   padding-bottom: 10vh
-  & > :not(:first-child)
+  & > :not(:first-child),& > :not(:last-child)
     margin: 15px
     margin-bottom: 10vh
 
@@ -247,9 +247,40 @@ a
     flex-wrap: wrap
     align-content: center
     font-size: 2rem
+    margin-bottom: 3rem
+
+#recordTable
+  border-collapse: collapse
+  width: 100%
+  tr:nth-child(even)
+    background-color: $_2
+  tr:nth-child(odd)
+    background-color: $_3
+  td span
+    float: right
+    cursor: pointer
+
+    &:hover
+      color: $_5
+
+  td,th
+    border: 1px solid #ddd
+    padding: 8px
+    text-align: center
+  th
+    padding-top: 12px
+    padding-bottom: 12px
+    text-align: center
+    background-color: $_4
+    color: white
+
+  .rowName
+    background-color: $_4
+    color: $_white
 
 hr
   margin: 15px
+  width: 100%
 @media (max-width: 700px)
   .foundation
     max-width: 92vw

@@ -53,7 +53,7 @@ body {
   position: relative;
   padding-bottom: 10vh;
 }
-.foundation > :not(:first-child) {
+.foundation > :not(:first-child), .foundation > :not(:last-child) {
   margin: 15px;
   margin-bottom: 10vh;
 }
@@ -284,10 +284,46 @@ a {
   flex-wrap: wrap;
   align-content: center;
   font-size: 2rem;
+  margin-bottom: 3rem;
+}
+
+#recordTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+#recordTable tr:nth-child(even) {
+  background-color: #9dbebb;
+}
+#recordTable tr:nth-child(odd) {
+  background-color: #77aca2;
+}
+#recordTable td span {
+  float: right;
+  cursor: pointer;
+}
+#recordTable td span:hover {
+  color: #031926;
+}
+#recordTable td, #recordTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+#recordTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #468189;
+  color: white;
+}
+#recordTable .rowName {
+  background-color: #468189;
+  color: #F7F7F7;
 }
 
 hr {
   margin: 15px;
+  width: 100%;
 }
 
 @media (max-width: 700px) {

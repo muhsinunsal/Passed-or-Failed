@@ -9,7 +9,7 @@ const s4 = document.getElementById("s4");
 const lastUpdateElement = document.getElementById("lastUpdate");
 const gradingElementStackTemplate = document.getElementById("gradingStackTemplate");
 const courseAddBtn = document.getElementById("addCourseBtn");
-const savedCourses = [];
+let courseAddBtnLock = true;
 class s2Text {
     constructor(content) {
         this.content = content;
@@ -33,6 +33,8 @@ const s2Texts = {
     starting: new s2Text("Please start with choosing course you're taking"),
     courseNotFound: new s2Text("There is no data associated with this course."),
     noGradingData: new s2Text("This course doesn't have grading data!"),
+    duplicateRecord: new s2Text("There are already data on this course"),
+    noRecord: new s2Text("There is no record to show")
 };
 // Starting status
 s2.appendChild(s2Texts.starting.getDOMElement());
@@ -50,6 +52,21 @@ const courseSortOrder = {
     Seminar: 9,
     Laboratory: 2,
     Application: 10,
+};
+const formatGradingType = (type, option) => {
+    if (option === "forDisplay") {
+        return type.trim().split("/").shift();
+    }
+    else if (option === "forID") {
+        return type
+            .trim()
+            .split("/")
+            .shift()
+            .split(" ")
+            .map((str) => str.toLowerCase())
+            .join("_");
+    }
+    return type;
 };
 class Grading {
     constructor(gradingData) {
@@ -73,7 +90,7 @@ class Grading {
         const gradingPrime_input = document.createElement("input");
         gradingPrime_input.className = "gradingInput total";
         gradingPrime_input.type = "number";
-        gradingPrime_input.id = `${this.formatedType("forID")}_total`;
+        gradingPrime_input.id = `${formatGradingType(this.type, "forID")}_total`;
         gradingPrime_input.disabled = true;
         gradingPrime_input.addEventListener("change", () => this.calculateGrade("total"));
         gradingPrime_input_wrapper.appendChild(gradingPrime_input);
@@ -86,7 +103,7 @@ class Grading {
         const totalPercantageValue_input = document.createElement("input");
         totalPercantageValue_input.className = "gradingInput total_percantage";
         totalPercantageValue_input.type = "number";
-        totalPercantageValue_input.id = `${this.formatedType("forID")}_total_percantage`;
+        totalPercantageValue_input.id = `${formatGradingType(this.type, "forID")}_total_percantage`;
         totalPercantageValue_input.disabled = true;
         totalPercantageValue_input.addEventListener("change", () => this.calculateGrade("total_percantage"));
         totalPercantageValue_input_wrapper.appendChild(totalPercantageValue_input);
@@ -102,7 +119,7 @@ class Grading {
             const grading_input = document.createElement("input");
             grading_input.className = "gradingInput percantage";
             grading_input.type = "number";
-            grading_input.id = `${this.formatedType("forID")}_${i}`;
+            grading_input.id = `${formatGradingType(this.type, "forID")}_${i}`;
             grading_input.addEventListener("change", () => this.calculateGrade("percantage"));
             // grading_input.disabled = true
             list_element.appendChild(grading_input);
@@ -115,9 +132,9 @@ class Grading {
     genDOMElements() {
         const gradingStack = document.createElement("ol");
         gradingStack.className = "gradingStack";
-        gradingStack.id = `gradingStack_${this.formatedType("forID")}`;
+        gradingStack.id = `gradingStack_${formatGradingType(this.type, "forID")}`;
         const gradingTitle = document.createElement("span");
-        gradingTitle.innerText = this.formatedType("forDisplay");
+        gradingTitle.innerText = formatGradingType(this.type, "forDisplay");
         gradingTitle.className = "text";
         const percantageText = document.createElement("span");
         percantageText.className = "percantageText";
@@ -190,23 +207,6 @@ class Grading {
         }
         subtitle.innerHTML = this.calculationStyle;
         return this.calculationStyle;
-    }
-    formatedType(option) {
-        if (option === "forDisplay") {
-            return this.type.trim().split("/").shift();
-        }
-        else if (option === "forID") {
-            return this.type
-                .trim()
-                .split("/")
-                .shift()
-                .split(" ")
-                .map((str) => str.toLowerCase())
-                .join("_");
-        }
-        else {
-            return undefined;
-        }
     }
     log() {
         console.log(this);
@@ -341,8 +341,145 @@ class Course {
         else {
             courseAddBtn.disabled = true;
         }
+        return totalCourseGrade;
     }
 }
+class CourseRecord {
+    constructor(course, date) {
+        this.course = course;
+        this.date = date;
+        this.totalGrade = course.calculateCourseGrade();
+        this.grades = {};
+        course.gradings.forEach((grading) => {
+            // TOTAL PERCANTAGE MIGHT BE WRONG CHECK LATER
+            this.grades[grading.type] = +grading.DOMElements.total_percantage.value;
+        });
+    }
+}
+class RecordTable {
+    constructor() {
+        this.records = [];
+        this.columns = [];
+        this.DOMElement = null;
+        this.childElements = {
+            header: [],
+            courses: [],
+        };
+    }
+    addRecord(record) {
+        this.records.push(record);
+    }
+    removeRecord(courseShortName) {
+        this.records = this.records.filter((record) => record.course.shortName !== courseShortName);
+        this.render();
+    }
+    importTable(oldTable) { }
+    render() {
+        // Restart s4
+        s4.innerHTML = "";
+        if (this.records.length > 0) {
+            console.log(this.records);
+            const table = document.createElement("table");
+            table.id = "recordTable";
+            s4.appendChild(table);
+            // Header Row
+            const headerRow = document.createElement("tr");
+            const emptyCell = document.createElement("th");
+            const totalCell = document.createElement("th");
+            emptyCell.innerText = "";
+            totalCell.innerText = "Total / 100";
+            this.columns = this.records
+                // Gather courses
+                .map((record) => record.course.gradings.map((grading) => grading.type))
+                // Filter Duplicates
+                .reduce((a, b) => [...new Set([...a, ...b])])
+                // Sort
+                .sort((a, b) => {
+                if (courseSortOrder[a] > courseSortOrder[b]) {
+                    return 1;
+                }
+                else if (courseSortOrder[a] < courseSortOrder[b]) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            });
+            this.childElements.header.push(emptyCell);
+            headerRow.appendChild(emptyCell);
+            this.columns.forEach((column) => {
+                const td = document.createElement("th");
+                td.innerText = formatGradingType(column, "forDisplay");
+                this.childElements.header.push(td);
+                headerRow.appendChild(td);
+            });
+            headerRow.appendChild(totalCell);
+            table.appendChild(headerRow);
+            // Record Rows
+            this.records.forEach((record) => {
+                const row = document.createElement("tr");
+                const courseName = document.createElement("td");
+                courseName.innerText = record.course.shortName;
+                courseName.className = "rowName";
+                const removeBtn = document.createElement("span");
+                removeBtn.innerText = "✘";
+                removeBtn.addEventListener("click", () => {
+                    this.removeRecord(record.course.shortName);
+                });
+                courseName.appendChild(removeBtn);
+                row.appendChild(courseName);
+                table.appendChild(row);
+                const HTMLElementObj = {
+                    grades: [],
+                };
+                HTMLElementObj.courseName = courseName;
+                // for (let [key, value] of Object.entries(record.grades)) {
+                // 	const gradeElement = document.createElement("td");
+                // 	HTMLElementObj.grades!.push(gradeElement);
+                // 	row.appendChild(gradeElement);
+                // 	if (key in record.grades) {
+                // 		if (value === 0) {
+                // 			gradeElement.classList.add("empty");
+                // 			gradeElement.innerText = "-";
+                // 		} else {
+                // 			gradeElement.innerText = "" + value;
+                // 		}
+                // 	}
+                // }
+                this.columns.forEach((column) => {
+                    const gradeElement = document.createElement("td");
+                    row.appendChild(gradeElement);
+                    HTMLElementObj.grades.push(gradeElement);
+                    if (record.grades[column] !== undefined) {
+                        // Has this grading type
+                        if (record.grades[column] === 0) {
+                            // Got 0 point
+                            // gradeElement.classList.add("empty");
+                            gradeElement.innerText = "?";
+                        }
+                        else {
+                            // Everthing normal
+                            gradeElement.innerText = "" + record.grades[column];
+                        }
+                    }
+                    else {
+                        // Has't have this grading type
+                        // gradeElement.classList.add("disabled");
+                    }
+                });
+                this.childElements.courses.push(HTMLElementObj);
+                const totalPoint = document.createElement("td");
+                totalPoint.innerText = "" + record.totalGrade;
+                row.appendChild(totalPoint);
+                HTMLElementObj.total = totalPoint;
+            });
+        }
+        else {
+            s4.insertAdjacentElement("afterbegin", s2Texts.noRecord.getDOMElement());
+        }
+    }
+}
+const recordTable = new RecordTable();
 const handleJSON = ([updateDate, ...courses]) => {
     // Last Update Time
     lastUpdateElement.innerText = updateDate;
@@ -360,6 +497,7 @@ const handleJSON = ([updateDate, ...courses]) => {
         if (course_inp.value.trim() === "") {
             //If input is empty
             s2.appendChild(s2Texts.starting.getDOMElement());
+            courseAddBtn.disabled = true;
         }
         else {
             const selectedCourse = courseArray.find((course) => course.shortName === course_inp.value);
@@ -368,12 +506,24 @@ const handleJSON = ([updateDate, ...courses]) => {
                 s2.appendChild(s2Texts.courseNotFound.getDOMElement());
             }
             else {
+                courseAddBtn.disabled = false;
                 //If everythings okay
                 selectedCourse === null || selectedCourse === void 0 ? void 0 : selectedCourse.renderDOMELements(s2);
                 courseAddBtn.addEventListener("click", () => {
-                    s4.classList.remove("hidden");
-                    savedCourses.push(selectedCourse);
-                });
+                    if (
+                    //Pervent duplicates
+                    recordTable.records.filter((record) => record.course.shortName === selectedCourse.shortName)
+                        .length) {
+                        const warningText = s2Texts.duplicateRecord.getDOMElement();
+                        s4.insertAdjacentElement("afterbegin", warningText);
+                    }
+                    else {
+                        s4.classList.remove("hidden");
+                        recordTable.addRecord(new CourseRecord(selectedCourse, new Date()));
+                        recordTable.render();
+                        courseAddBtn.disabled = true;
+                    }
+                }, { once: true });
             }
         }
     });
