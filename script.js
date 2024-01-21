@@ -10,6 +10,7 @@ const lastUpdateElement = document.getElementById("lastUpdate");
 const gradingElementStackTemplate = document.getElementById("gradingStackTemplate");
 const courseAddBtn = document.getElementById("addCourseBtn");
 let courseAddBtnLock = true;
+let selectedCourse = undefined;
 class s2Text {
     constructor(content) {
         this.content = content;
@@ -34,7 +35,7 @@ const s2Texts = {
     courseNotFound: new s2Text("There is no data associated with this course."),
     noGradingData: new s2Text("This course doesn't have grading data!"),
     duplicateRecord: new s2Text("There are already data on this course"),
-    noRecord: new s2Text("There is no record to show")
+    noRecord: new s2Text("There is no record to show"),
 };
 // Starting status
 s2.appendChild(s2Texts.starting.getDOMElement());
@@ -335,11 +336,11 @@ class Course {
         let totalCourseGrade = 0;
         this.gradings.forEach((grading) => (totalCourseGrade += grading.storedValues.total));
         s3FinalGrade.innerHTML = "" + totalCourseGrade;
-        if (totalCourseGrade !== 0) {
-            courseAddBtn.disabled = false;
+        if (totalCourseGrade === 0) {
+            courseAddBtn.disabled = true;
         }
         else {
-            courseAddBtn.disabled = true;
+            courseAddBtn.disabled = false;
         }
         return totalCourseGrade;
     }
@@ -372,6 +373,7 @@ class RecordTable {
     removeRecord(courseShortName) {
         this.records = this.records.filter((record) => record.course.shortName !== courseShortName);
         this.render();
+        courseAddBtn.disabled = false;
     }
     importTable(oldTable) { }
     render() {
@@ -500,31 +502,35 @@ const handleJSON = ([updateDate, ...courses]) => {
             courseAddBtn.disabled = true;
         }
         else {
-            const selectedCourse = courseArray.find((course) => course.shortName === course_inp.value);
-            if (!selectedCourse) {
+            selectedCourse = courseArray.find((course) => course.shortName === course_inp.value);
+            if (selectedCourse) {
+                //If everythings okay
+                selectedCourse === null || selectedCourse === void 0 ? void 0 : selectedCourse.renderDOMELements(s2);
+            }
+            else {
                 // If selected course not found
                 s2.appendChild(s2Texts.courseNotFound.getDOMElement());
             }
-            else {
-                courseAddBtn.disabled = false;
-                //If everythings okay
-                selectedCourse === null || selectedCourse === void 0 ? void 0 : selectedCourse.renderDOMELements(s2);
-                courseAddBtn.addEventListener("click", () => {
-                    if (
-                    //Pervent duplicates
-                    recordTable.records.filter((record) => record.course.shortName === selectedCourse.shortName)
-                        .length) {
-                        const warningText = s2Texts.duplicateRecord.getDOMElement();
-                        s4.insertAdjacentElement("afterbegin", warningText);
-                    }
-                    else {
-                        s4.classList.remove("hidden");
-                        recordTable.addRecord(new CourseRecord(selectedCourse, new Date()));
-                        recordTable.render();
-                        courseAddBtn.disabled = true;
-                    }
-                }, { once: true });
+        }
+    });
+    courseAddBtn.addEventListener("click", () => {
+        if (selectedCourse) {
+            const hasDuplicate = recordTable.records.filter((record) => record.course.shortName === selectedCourse.shortName).length !==
+                0;
+            //Pervent duplicates
+            if (hasDuplicate) {
+                const warningText = s2Texts.duplicateRecord.getDOMElement();
+                s4.insertAdjacentElement("afterbegin", warningText);
             }
+            else {
+                s4.classList.remove("hidden");
+                recordTable.addRecord(new CourseRecord(selectedCourse, new Date()));
+                recordTable.render();
+                courseAddBtn.disabled = true;
+            }
+        }
+        else {
+            s4.insertAdjacentElement("afterbegin", s2Texts.courseNotFound.getDOMElement());
         }
     });
 };
