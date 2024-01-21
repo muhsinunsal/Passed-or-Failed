@@ -50,12 +50,12 @@ type CourseData = {
 };
 
 type GradingData = {
-	type: GradingType;
+	type: GradingType | GradingStrings;
 	number: number;
 	percentage: number;
 };
 
-type GradingType =
+type GradingStrings =
 	| "Attendance/Participation"
 	| "Field Work"
 	| "Special Course Internship"
@@ -70,36 +70,59 @@ type GradingType =
 	| "Laboratory"
 	| "Application";
 
-const courseSortOrder = {
-	"Attendance/Participation": 13,
-	"Field Work": 11,
-	"Special Course Internship": 12,
-	"Quizzes/Studio Critics": 4,
-	"Homework Assignments": 3,
-	"Midterms Exams/Midterms Jury": 1,
-	"Final Exam/Final Jury": 7,
-	Presentation: 6,
-	Project: 5,
-	Report: 8,
-	Seminar: 9,
-	Laboratory: 2,
-	Application: 10,
-};
-
-const formatGradingType = (type: GradingType, option?: "forID" | "forDisplay") => {
-	if (option === "forDisplay") {
-		return type.trim().split("/").shift();
-	} else if (option === "forID") {
-		return type
-			.trim()
-			.split("/")
-			.shift()!
-			.split(" ")
-			.map((str) => str.toLowerCase())
-			.join("_");
+class GradingType {
+	private courseSortOrder = {
+		"Attendance/Participation": 13,
+		"Field Work": 11,
+		"Special Course Internship": 12,
+		"Quizzes/Studio Critics": 4,
+		"Homework Assignments": 3,
+		"Midterms Exams/Midterms Jury": 1,
+		"Final Exam/Final Jury": 7,
+		Presentation: 6,
+		Project: 5,
+		Report: 8,
+		Seminar: 9,
+		Laboratory: 2,
+		Application: 10,
+	};
+	private perInputTable = {
+		"Attendance/Participation": false,
+		"Field Work": true,
+		"Special Course Internship": true,
+		"Quizzes/Studio Critics": false,
+		"Homework Assignments": false,
+		"Midterms Exams/Midterms Jury": true,
+		"Final Exam/Final Jury": true,
+		Presentation: true,
+		Project: false,
+		Report: false,
+		Seminar: false,
+		Laboratory: false,
+		Application: true,
+	};
+	constructor(private typeName: GradingStrings) {}
+	get sortingOrder() {
+		return this.courseSortOrder[this.typeName];
 	}
-	return type;
-};
+	get isPerInput() {
+		return this.perInputTable[this.typeName];
+	}
+	getNameString(option?: "forID" | "forDisplay") {
+		if (option === "forDisplay") {
+			return this.typeName.trim().split("/").shift()!;
+		} else if (option === "forID") {
+			return this.typeName
+				.trim()
+				.split("/")
+				.shift()!
+				.split(" ")
+				.map((str) => str.toLowerCase())
+				.join("_")!;
+		}
+		return this.typeName as GradingStrings;
+	}
+}
 
 class Grading implements GradingData {
 	type: GradingType;
@@ -117,7 +140,7 @@ class Grading implements GradingData {
 		total_percantage: HTMLInputElement | null;
 	};
 	constructor(gradingData: GradingData) {
-		this.type = gradingData.type;
+		this.type = new GradingType(gradingData.type as GradingStrings);
 		this.number = gradingData.number;
 		this.percentage = gradingData.percentage;
 		this.storedValues = {
@@ -137,7 +160,7 @@ class Grading implements GradingData {
 		const gradingPrime_input = document.createElement("input");
 		gradingPrime_input.className = "gradingInput total";
 		gradingPrime_input.type = "number";
-		gradingPrime_input.id = `${formatGradingType(this.type, "forID")}_total`;
+		gradingPrime_input.id = `${this.type.getNameString("forID")}_total`;
 		gradingPrime_input.disabled = true;
 		gradingPrime_input.addEventListener("change", () => this.calculateGrade("total"));
 		gradingPrime_input_wrapper.appendChild(gradingPrime_input);
@@ -153,7 +176,7 @@ class Grading implements GradingData {
 		const totalPercantageValue_input = document.createElement("input");
 		totalPercantageValue_input.className = "gradingInput total_percantage";
 		totalPercantageValue_input.type = "number";
-		totalPercantageValue_input.id = `${formatGradingType(this.type, "forID")}_total_percantage`;
+		totalPercantageValue_input.id = `${this.type.getNameString("forID")}_total_percantage`;
 		totalPercantageValue_input.disabled = true;
 		totalPercantageValue_input.addEventListener("change", () => this.calculateGrade("total_percantage"));
 
@@ -172,7 +195,7 @@ class Grading implements GradingData {
 			const grading_input = document.createElement("input");
 			grading_input.className = "gradingInput percantage";
 			grading_input.type = "number";
-			grading_input.id = `${formatGradingType(this.type, "forID")}_${i}`;
+			grading_input.id = `${this.type.getNameString("forID")}_${i}`;
 			grading_input.addEventListener("change", () => this.calculateGrade("percantage"));
 
 			// grading_input.disabled = true
@@ -186,13 +209,13 @@ class Grading implements GradingData {
 	private genDOMElements() {
 		const gradingStack = document.createElement("ol");
 		gradingStack.className = "gradingStack";
-		gradingStack.id = `gradingStack_${formatGradingType(this.type, "forID")}`;
+		gradingStack.id = `gradingStack_${this.type.getNameString("forID")}`;
 		const gradingTitle = document.createElement("span");
-		gradingTitle.innerText = formatGradingType(this.type, "forDisplay")!;
+		gradingTitle.innerText = this.type.getNameString("forDisplay")!;
 		gradingTitle.className = "text";
 		const percantageText = document.createElement("span");
 		percantageText.className = "percantageText";
-		if (this.isPerInput() && this.number !== 1) {
+		if (this.type.isPerInput && this.number !== 1) {
 			percantageText.innerText = ` (${this.percentage / this.number}% per)`;
 		} else {
 			percantageText.innerText = ` (${this.percentage}%)`;
@@ -270,29 +293,6 @@ class Grading implements GradingData {
 		return this.calculationStyle;
 	}
 
-	log() {
-		console.log(this);
-		console.log(courseSortOrder[this.type]);
-	}
-	private isPerInput() {
-		let table = {
-			"Attendance/Participation": false,
-			"Field Work": true,
-			"Special Course Internship": true,
-			"Quizzes/Studio Critics": false,
-			"Homework Assignments": false,
-			"Midterms Exams/Midterms Jury": true,
-			"Final Exam/Final Jury": true,
-			Presentation: true,
-			Project: false,
-			Report: false,
-			Seminar: false,
-			Laboratory: false,
-			Application: true,
-		};
-		return table[this.type];
-	}
-
 	calculateGrade(triggerOwner: "percantage" | "total" | "total_percantage") {
 		// console.log("Pre Calc", this.storedValues);
 		switch (triggerOwner) {
@@ -358,19 +358,15 @@ class Course implements CourseData {
 	}
 	private sortGradings() {
 		this.gradings = this.gradings.sort((a, b) => {
-			if (courseSortOrder[a.type] > courseSortOrder[b.type]) {
+			if (a.type.sortingOrder > b.type.sortingOrder) {
 				return 1;
-			} else if (courseSortOrder[a.type] < courseSortOrder[b.type]) {
+			} else if (a.type.sortingOrder < b.type.sortingOrder) {
 				return -1;
 			} else {
 				return 0;
 			}
 		});
 		return this.gradings;
-	}
-	log() {
-		this.sortGradings();
-		console.log(this);
 	}
 
 	renderDOMELements(target: HTMLDivElement) {
@@ -403,20 +399,20 @@ class Course implements CourseData {
 	calculateCourseGrade() {
 		let totalCourseGrade = 0;
 		this.gradings.forEach((grading) => (totalCourseGrade += grading.storedValues.total));
-		s3FinalGrade.innerHTML = "" + totalCourseGrade;
+		s3FinalGrade.innerHTML = "" + totalCourseGrade.toFixed(2);
 
 		if (totalCourseGrade === 0) {
 			courseAddBtn.disabled = true;
 		} else {
 			courseAddBtn.disabled = false;
 		}
-		return totalCourseGrade;
+		return  totalCourseGrade
 	}
 }
 
 class CourseRecord {
 	grades: {
-		[key in GradingType]?: number;
+		[key in GradingStrings]?: number;
 	};
 	totalGrade: number;
 	constructor(public course: Course, public date: Date) {
@@ -424,7 +420,7 @@ class CourseRecord {
 		this.grades = {};
 		course.gradings.forEach((grading) => {
 			// TOTAL PERCANTAGE MIGHT BE WRONG CHECK LATER
-			this.grades[grading.type] = +grading.DOMElements.total_percantage!.value;
+			this.grades[grading.type.getNameString() as GradingStrings] = +grading.DOMElements.total_percantage!.value;
 		});
 	}
 }
@@ -456,15 +452,13 @@ class RecordTable {
 	removeRecord(courseShortName: string) {
 		this.records = this.records.filter((record) => record.course.shortName !== courseShortName);
 		this.render();
-		courseAddBtn.disabled = false
+		courseAddBtn.disabled = false;
 	}
 	importTable(oldTable: string) {}
 	render() {
 		// Restart s4
 		s4.innerHTML = "";
 		if (this.records.length > 0) {
-			console.log(this.records);
-
 			const table = document.createElement("table");
 			table.id = "recordTable";
 			s4.appendChild(table);
@@ -483,9 +477,9 @@ class RecordTable {
 				.reduce((a, b) => [...new Set([...a, ...b])])
 				// Sort
 				.sort((a, b) => {
-					if (courseSortOrder[a] > courseSortOrder[b]) {
+					if (a.sortingOrder > b.sortingOrder) {
 						return 1;
-					} else if (courseSortOrder[a] < courseSortOrder[b]) {
+					} else if (a.sortingOrder < b.sortingOrder) {
 						return -1;
 					} else {
 						return 0;
@@ -495,7 +489,15 @@ class RecordTable {
 			headerRow.appendChild(emptyCell);
 			this.columns.forEach((column) => {
 				const td = document.createElement("th");
-				td.innerText = formatGradingType(column, "forDisplay")!;
+				td.innerText = column.getNameString("forDisplay");
+				if (column.isPerInput) {
+					if (column.getNameString() !== "Final Exam/Final Jury") {
+						const sumText = document.createElement("h6");
+						sumText.innerText = "(Sum of)";
+						td.appendChild(sumText);
+					}
+				}
+
 				this.childElements.header.push(td);
 				headerRow.appendChild(td);
 			});
@@ -509,7 +511,7 @@ class RecordTable {
 				const courseName = document.createElement("td");
 				courseName.innerText = record.course.shortName;
 				courseName.className = "rowName";
-				const removeBtn = document.createElement("span");
+				const removeBtn = document.createElement("h6");
 				removeBtn.innerText = "✘";
 				removeBtn.addEventListener("click", () => {
 					this.removeRecord(record.course.shortName);
@@ -546,15 +548,15 @@ class RecordTable {
 					const gradeElement = document.createElement("td");
 					row.appendChild(gradeElement);
 					HTMLElementObj.grades!.push(gradeElement);
-					if (record.grades[column] !== undefined) {
+					if (record.grades[column.getNameString() as GradingStrings] !== undefined) {
 						// Has this grading type
-						if (record.grades[column] === 0) {
+						if (record.grades[column.getNameString() as GradingStrings] === 0) {
 							// Got 0 point
 							// gradeElement.classList.add("empty");
 							gradeElement.innerText = "?";
 						} else {
 							// Everthing normal
-							gradeElement.innerText = "" + record.grades[column];
+							gradeElement.innerText = "" + record.grades[column.getNameString() as GradingStrings]?.toFixed(2);
 						}
 					} else {
 						// Has't have this grading type
@@ -565,7 +567,7 @@ class RecordTable {
 				this.childElements.courses.push(HTMLElementObj);
 
 				const totalPoint = document.createElement("td");
-				totalPoint.innerText = "" + record.totalGrade;
+				totalPoint.innerText = "" + record.totalGrade.toFixed(2);
 				row.appendChild(totalPoint);
 				HTMLElementObj.total = totalPoint;
 			});

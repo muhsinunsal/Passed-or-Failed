@@ -52,6 +52,8 @@ body
 
   & > :last-child
     margin-bottom: 0
+.update-date
+  text-wrap: nowrap
 
 header
   display: flex
@@ -115,6 +117,8 @@ h1
   flex-wrap: wrap
   min-height: 200px
 
+.s2Text h2
+  text-wrap: balance
 .gradingStack
   display: flex
   flex-direction: column
@@ -251,6 +255,7 @@ a
 
 #recordTable
   border-collapse: collapse
+  overflow-x: auto
   width: 100%
   tr:nth-child(even)
     background-color: $_2
@@ -281,9 +286,16 @@ a
 hr
   margin: 15px
   width: 100%
+
 @media (max-width: 700px)
   .foundation
-    max-width: 92vw
-
+    max-width: 90vw
+   
+  #s4
+    margin: 0
   #s1 > input
     width: 30%
+
+  th
+    writing-mode: tb
+    transform: rotate(180deg)
