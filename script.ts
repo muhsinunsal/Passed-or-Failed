@@ -591,6 +591,7 @@ const handleJSON = ([updateDate, ...courses]: [string, ...CourseData[]]) => {
 	searchResetBtn.addEventListener("click", () => {
 		s2.innerHTML = "";
 		course_inp.value = "";
+		s3FinalGrade.innerText = ""+0
 		s2.appendChild(s2Texts.starting.getDOMElement());
 	});
 
