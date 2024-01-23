@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import fs from "fs";
+import fs, { appendFile } from "fs";
 
 console.time("dbsave");
 
@@ -13,7 +13,7 @@ var elapsed_time = function (note) {
 }
 
 let courses = [];
-
+let data = "";
 
 const run = async () => {
     elapsed_time("Start\n")
@@ -61,11 +61,11 @@ const run = async () => {
     finalCourseList.sort((a, b) => (a.shortName < b.shortName) ? -1 : ((a.shortName > b.shortName) ? 1 : 0));
     console.log("--------------------------------------------------")
 
-    fs.writeFileSync("data.json", "[");
+    data += "["
 
     //Mark the Date
     const lastUpadted = new Date();
-    fs.appendFileSync("data.json", JSON.stringify(lastUpadted.toDateString()) + ",");
+    data += JSON.stringify(lastUpadted.toDateString()) + ","
 
     //Visit each Course Page And Print Gradings
     for (const course in finalCourseList) {
@@ -74,7 +74,7 @@ const run = async () => {
         let gradings = await coursePage.evaluate(() =>
             Array.from(document.querySelectorAll(".detail-container.ects div:nth-child(5) > table > tbody > tr"), (grading) => {
                 const row = grading.querySelectorAll("td");
-                let type;
+                let type = row[0].innerText;
                 
                 const number = (row[1].innerText == "-") ? null : Number(row[1].innerText);
                 const percentage = (row[2].innerText == "-") ? null : Number(row[2].innerText);
@@ -94,16 +94,12 @@ const run = async () => {
         //Update the array with gradings
         finalCourseList[course].gradings = gradings;
         console.log(`(${course}/${finalCourseList.length}) ${finalCourseList[course].shortName} ✔`);
-        fs.appendFile("data.json", JSON.stringify(finalCourseList[course]) + ",", (err) => {
-            if (err) throw course
-        })
+        data += (JSON.stringify(finalCourseList[course]) + ",")
         coursePage.close();
     }
-
-    fs.appendFile("data.json", "]", (err) => {
-        if (err) throw course
-    });
-
+    data = data.slice(0, -1);
+    data += "]"
+    fs.writeFileSync("data.json",data)
     await browser.close();
     elapsed_time("Finish");
 }

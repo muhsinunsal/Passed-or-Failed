@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/muhsinunsal/Passed-or-Failed#readme",
   "dependencies": {
-    "puppeteer": "^19.7.5"
+    "@types/puppeteer": "^7.0.4",
+    "puppeteer": "^19.11.1"
   }
 }
