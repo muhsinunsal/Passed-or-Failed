@@ -369,6 +369,7 @@ class RecordTable {
     }
     addRecord(record) {
         this.records.push(record);
+        console.log(record);
     }
     removeRecord(courseShortName) {
         this.records = this.records.filter((record) => record.course.shortName !== courseShortName);
@@ -389,12 +390,13 @@ class RecordTable {
             const totalCell = document.createElement("th");
             emptyCell.innerText = "";
             totalCell.innerText = "Total / 100";
-            this.columns = this.records
-                // Gather courses
-                .map((record) => record.course.gradings.map((grading) => grading.type))
-                // Filter Duplicates
-                .reduce((a, b) => [...new Set([...a, ...b])])
-                // Sort
+            //Concat two record's grading types
+            this.columns = Object.keys(this.records
+                .map((record) => record.grades)
+                .reduce((a, b) => {
+                return Object.assign(Object.assign({}, a), b);
+            }))
+                .map((key) => new GradingType(key))
                 .sort((a, b) => {
                 if (a.sortingOrder > b.sortingOrder) {
                     return 1;
@@ -467,8 +469,18 @@ class RecordTable {
                             gradeElement.innerText = "?";
                         }
                         else {
-                            // Everthing normal
-                            gradeElement.innerText = "" + ((_a = record.grades[column.getNameString()]) === null || _a === void 0 ? void 0 : _a.toFixed(2));
+                            // If displayed per input
+                            if (column.isPerInput) {
+                                let gradingNumber = record.course.gradings.find((grading) => grading.type.getNameString() === column.getNameString()).number;
+                                gradeElement.innerText =
+                                    "" +
+                                        (record.grades[column.getNameString()] / gradingNumber).toFixed(2);
+                            }
+                            else {
+                                // Everthing normal
+                                gradeElement.innerText =
+                                    "" + ((_a = record.grades[column.getNameString()]) === null || _a === void 0 ? void 0 : _a.toFixed(2));
+                            }
                         }
                     }
                     else {

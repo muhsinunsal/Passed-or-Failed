@@ -406,7 +406,7 @@ class Course implements CourseData {
 		} else {
 			courseAddBtn.disabled = false;
 		}
-		return  totalCourseGrade
+		return totalCourseGrade;
 	}
 }
 
@@ -448,6 +448,7 @@ class RecordTable {
 	}
 	addRecord(record: CourseRecord) {
 		this.records.push(record);
+		console.log(record);
 	}
 	removeRecord(courseShortName: string) {
 		this.records = this.records.filter((record) => record.course.shortName !== courseShortName);
@@ -470,12 +471,15 @@ class RecordTable {
 			emptyCell.innerText = "";
 			totalCell.innerText = "Total / 100";
 
-			this.columns = this.records
-				// Gather courses
-				.map((record) => record.course.gradings.map((grading) => grading.type))
-				// Filter Duplicates
-				.reduce((a, b) => [...new Set([...a, ...b])])
-				// Sort
+			//Concat two record's grading types
+			this.columns = Object.keys(
+				this.records
+					.map((record) => record.grades)
+					.reduce((a, b) => {
+						return { ...a, ...b };
+					})
+			)
+				.map((key) => new GradingType(key as GradingStrings))
 				.sort((a, b) => {
 					if (a.sortingOrder > b.sortingOrder) {
 						return 1;
@@ -555,8 +559,21 @@ class RecordTable {
 							// gradeElement.classList.add("empty");
 							gradeElement.innerText = "?";
 						} else {
-							// Everthing normal
-							gradeElement.innerText = "" + record.grades[column.getNameString() as GradingStrings]?.toFixed(2);
+							// If displayed per input
+							if (column.isPerInput) {
+								let gradingNumber = record.course.gradings.find(
+									(grading) => grading.type.getNameString() === column.getNameString()
+								)!.number;
+								gradeElement.innerText =
+									"" +
+									(record.grades[column.getNameString() as GradingStrings]! / gradingNumber).toFixed(
+										2
+									);
+							} else {
+								// Everthing normal
+								gradeElement.innerText =
+									"" + record.grades[column.getNameString() as GradingStrings]?.toFixed(2);
+							}
 						}
 					} else {
 						// Has't have this grading type
@@ -591,7 +608,7 @@ const handleJSON = ([updateDate, ...courses]: [string, ...CourseData[]]) => {
 	searchResetBtn.addEventListener("click", () => {
 		s2.innerHTML = "";
 		course_inp.value = "";
-		s3FinalGrade.innerText = ""+0
+		s3FinalGrade.innerText = "" + 0;
 		s2.appendChild(s2Texts.starting.getDOMElement());
 	});
 
